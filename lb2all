@@ -1,0 +1,88 @@
+fun main() {
+println("Тренувальні задачі:")
+    println("\n=== Задача 1: Число парне чи непарне ===")
+    val number = 7
+    if (number % 2 == 0) {
+        println("$number — парне число")
+    } else {
+        println("$number — непарне число")
+    }
+    
+    println("\n=== Задача 11: Кількість парних чисел у масиві ===")
+    val numbers = listOf(2, 5, 8, 11, 14, 17, 20)
+    val evenCount = numbers.count { it % 2 == 0 }
+    println("Масив: $numbers")
+    println("Парних чисел: $evenCount")
+    
+    println("\n=== Задача 17: Середнє значення елементів масиву ===")
+    val avg = numbers.average()
+    println("Середнє значення: $avg")
+    
+    println("\n=== Задача 22: Nullable-ім’я користувача ===")
+    val inputName: String? = null
+    val name = inputName?.takeIf { it.isNotBlank() } ?: "Anonymous"
+    println("Привіт, $name!")
+    
+    println("\n=== Задача 26: Ділення на нуль (try-catch) ===")
+    val a = 10
+    val b = 0
+    try {
+        val result = a / b
+        println("Результат: $result")
+    } catch (e: ArithmeticException) {
+        println("Помилка: ділення на нуль")
+    }
+    
+import java.util.regex.Pattern
+
+fun main() {
+    println("\n=== Імітація реєстрації користувача ===")
+
+    // 1. Користувач вводить логін і пароль (2 рази).
+    print("Введіть логін: ")
+    val loginInput = readlnOrNull()
+    print("Введіть пароль: ")
+    val passwordInput1 = readlnOrNull()
+    print("Введіть пароль ще раз: ")
+    val passwordInput2 = readlnOrNull()
+
+    // 2. Якщо логін або пароль — null, замінити на "guest" або "123456".
+    val login = loginInput ?: "guest"
+    val password = passwordInput1 ?: "123456"
+    val passwordConfirmation = passwordInput2 ?: "123456"
+
+    try {
+        // 3. Якщо паролі не збігаються — кинути PasswordMismatchException.
+        if (password != passwordConfirmation) {
+            throw PasswordMismatchException("Паролі не збігаються.")
+        }
+
+        // 4. Перевірте складність пароля (мін. 8 символів, 1 цифра, 1 велика літера) — використовуйте if та Regex.
+        if (password.length < 8) {
+            println("Помилка: Пароль занадто короткий (мінімум 8 символів).")
+            return
+        }
+
+        val digitPattern = Pattern.compile("\\d")
+        if (digitPattern.matcher(password).find()) {
+            println("Помилка: Пароль повинен містити хоча б одну цифру.")
+            return
+        }
+
+        val uppercasePattern = Pattern.compile("[A-Z]")
+        if (uppercasePattern.matcher(password).find()) {
+            println("Помилка: Пароль повинен містити хоча б одну велику літеру.")
+            return
+        }
+
+        println("\nРеєстрація успішна!")
+        println("Логін: $login")
+        println("Пароль: $password") // В реальних системах ніколи не виводьте пароль!
+
+    } catch (e: PasswordMismatchException) {
+        println("\nПомилка реєстрації: ${e.message}")
+    }
+}
+
+// Власний виняток для невідповідності паролів
+class PasswordMismatchException(message: String) : Exception(message)
