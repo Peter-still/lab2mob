@@ -32,7 +32,7 @@ println("Тренувальні задачі:")
     } catch (e: ArithmeticException) {
         println("Помилка: ділення на нуль")
     }
-    
+    Індивідуальне завдання варіант 6
 import java.util.regex.Pattern
 
 fun main() {
